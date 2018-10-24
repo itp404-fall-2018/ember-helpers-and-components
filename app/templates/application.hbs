@@ -1,5 +1,36 @@
-{{!-- The following component displays Ember's default welcome message. --}}
-{{welcome-page}}
-{{!-- Feel free to remove this! --}}
+<h2>with-commas Helper</h2>
+
+{{with-commas 9999999999}}
+
+<h2>MySwitch Component</h2>
+{{featureEnabled}}
+<MySwitch @on={{featureEnabled}} @onClick={{action "toggleFeature"}} />
+
+{{!-- {{my-switch on=featureEnabled onClick=(action "toggleFeature")}} --}}
+
+<h2>AsyncButton Component</h2>
+<AsyncButton
+  @defaultText="Save"
+  @pendingText="Saving..."
+  @onClick={{action "saveUser"}} />
+
+<AsyncButton
+  @defaultText="Delete"
+  @pendingText="Deleting..."
+  @onClick={{action "deleteUser"}} />
+
+
+<h2>CharactersRemaining Component</h2>
+
+{{input value=name}}
+
+<CharactersRemaining class="my-class" @text={{name}} @max={{10}} />
+
+<CharactersRemaining @text={{name}} @max={{10}} as |remaining|>
+  <p>
+    Characters Remaining: {{remaining}}
+  </p>
+</CharactersRemaining>
+
 
 {{outlet}}
