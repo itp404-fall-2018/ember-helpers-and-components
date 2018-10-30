@@ -6,21 +6,27 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | characters-remaining', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
+  test('on initial render', async function(assert) {
+    this.set('name', 'David');
+    await render(hbs`<CharactersRemaining @text={{name}} @max={{10}} />`);
+    assert.dom(this.element).hasText('5 characters remaining');
+  });
 
-    await render(hbs`{{characters-remaining}}`);
+  test('when text changes after render', async function(assert) {
+    await render(hbs`<CharactersRemaining @text={{name}} @max={{10}} />`);
+    this.set('name', 'David');
+    assert.dom(this.element).hasText('5 characters remaining');
+  });
 
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
+  test('in block form', async function(assert) {
     await render(hbs`
-      {{#characters-remaining}}
-        template block text
-      {{/characters-remaining}}
+      <CharactersRemaining @text={{name}} @max={{10}} as |remaining|>
+        <p>
+          Characters Remaining: {{remaining}}
+        </p>
+      </CharactersRemaining>
     `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    this.set('name', 'David');
+    assert.dom('p').hasText('Characters Remaining: 5');
   });
 });
